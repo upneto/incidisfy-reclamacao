@@ -1,8 +1,8 @@
 version: "3.9"
 services:
-  mysqldb:
+  reclamacaodb:
     image: mysql:latest
-    container_name: mysqldb
+    container_name: reclamacaodb
     restart: unless-stopped
     env_file: ./.env    
     environment:
@@ -11,21 +11,21 @@ services:
     ports:
       - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
     volumes:
-      - db:/var/lib/mysql
+      - db:/var/lib/reclamacaodb
  
   app_reclamacao:
     image: backend/app_reclamacao:1.0
     container_name: app_reclamacao    
     restart: on-failure
     depends_on:
-      - mysqldb
+      - reclamacaodb
     env_file: ./.env
     build: ./incidisfy-backend-reclamacao      
     ports:      
       - $APP_RECLAMACAO_LOCAL_PORT:$APP_RECLAMACAO_DOCKER_PORT
     environment:
       SPRING_APPLICATION_JSON: '{
-        "spring.datasource.url"  : "jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?allowPublicKeyRetrieval=true&useSSL=false",
+        "spring.datasource.url"  : "jdbc:mysql://reclamacaodb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?allowPublicKeyRetrieval=true&useSSL=false",
         "spring.datasource.username" : "$MYSQLDB_USER",
         "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
         "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
