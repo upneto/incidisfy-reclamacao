@@ -1,9 +1,5 @@
 package br.com.incidisfy.controller.payload;
 
-import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,9 +15,6 @@ public class ReclamacaoPayload {
 
 	private String codigo;
 	
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-	private Date dataCriacao;
-
 	private long codigoCliente;
 	private int codigoCategoria;
 	private long codigoProduto;
