@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  app_reclamacao:
+    image: backend/app_reclamacao:1.0
+    container_name: app_reclamacao    
+    restart: on-failure    
+    env_file: ./.env
+    build: ./      
+    ports:      
+      - $APP_RECLAMACAO_LOCAL_PORT:$APP_RECLAMACAO_DOCKER_PORT
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url"  : "jdbc:mysql://$MYSQLDB_HOST:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?allowPublicKeyRetrieval=true&useSSL=false",
+        "spring.datasource.username" : "$MYSQLDB_USER",
+        "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
+        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
+        "spring.jpa.hibernate.ddl-auto" : "update"
+        }'
+    volumes:
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true

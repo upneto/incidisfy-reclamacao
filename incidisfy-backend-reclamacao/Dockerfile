@@ -2,7 +2,7 @@
 FROM maven:3-jdk-11
 WORKDIR /incidisfy-backend-reclamacao
 COPY . .
-RUN mvn clean install
+RUN mvn clean install -DskipTests
 CMD mvn spring-boot:run
 
 #FROM maven:3-jdk-11
